@@ -36,10 +36,10 @@ def _msgBox():
     messagebox.showerror("Error",'Please enter correct format of date in yy-mm-dd')
     infoMenu=Menu(menuBar,tearoff=0)
     infoMenu.add_command(command = _msgBox)
-def _msgBox(): 
+def _msgBoxticker(): 
     messagebox.showerror("Error",'Please enter correct ticker')
     infoMenu=Menu(menuBar,tearoff=0)
-    infoMenu.add_command(command = _msgBox)
+    infoMenu.add_command(command = _msgBoxticker)
 #variables
 ticker = ticker_entry.get
 def input_ticker():
