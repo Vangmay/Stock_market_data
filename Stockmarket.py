@@ -57,7 +57,7 @@ def input_ticker():
         
         stat = yf.download(tickers = ticker,start=start_entry.get(),end = end_entry.get(),interval = interval_entry.get())
         if stat.empty == True:
-            _msgBox()
+            _msgBoxticker()
         else:
             fig = go.Figure()
             fig.add_trace(go.Candlestick(x=stat.index,
