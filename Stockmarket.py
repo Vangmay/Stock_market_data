@@ -36,6 +36,10 @@ def _msgBox():
     messagebox.showerror("Error",'Please enter correct format of date in yy-mm-dd')
     infoMenu=Menu(menuBar,tearoff=0)
     infoMenu.add_command(command = _msgBox)
+def _msgBox(): 
+    messagebox.showerror("Error",'Please enter correct ticker')
+    infoMenu=Menu(menuBar,tearoff=0)
+    infoMenu.add_command(command = _msgBox)
 #variables
 ticker = ticker_entry.get
 def input_ticker():
@@ -52,28 +56,31 @@ def input_ticker():
     else:
         
         stat = yf.download(tickers = ticker,start=start_entry.get(),end = end_entry.get(),interval = interval_entry.get())
-        fig = go.Figure()
-        fig.add_trace(go.Candlestick(x=stat.index,
-        open=stat['Open'],
-        high = stat['High'],
-        low = stat['Low'],
-        close= stat['Close'],name = 'market data'))
-        fig.update_layout(
-            title = ticker +' share price',
-            yaxis_title ='Stock price (USD PER SHARE)')
-        fig.update_xaxes(
-        rangeslider_visible=True,
-        rangeselector=dict(
-            buttons=list([
-                dict(count=15, label="15m", step="minute", stepmode="backward"),
-                dict(count=45, label="45m", step="minute", stepmode="backward"),
-                dict(count=1, label="HTD", step="hour", stepmode="todate"),
-                dict(count=3, label="3h", step="hour", stepmode="backward"),
-                dict(step="all")
-            ])
-        )
-    )   
-        fig.show()
+        if stat.empty == True:
+            _msgBox()
+        else:
+            fig = go.Figure()
+            fig.add_trace(go.Candlestick(x=stat.index,
+            open=stat['Open'],
+            high = stat['High'],
+            low = stat['Low'],
+            close= stat['Close'],name = 'market data'))
+            fig.update_layout(
+                title = ticker +' share price',
+                yaxis_title ='Stock price (USD PER SHARE)')
+            fig.update_xaxes(
+            rangeslider_visible=True,
+            rangeselector=dict(
+                buttons=list([
+                    dict(count=15, label="15m", step="minute", stepmode="backward"),
+                    dict(count=45, label="45m", step="minute", stepmode="backward"),
+                    dict(count=1, label="HTD", step="hour", stepmode="todate"),
+                    dict(count=3, label="3h", step="hour", stepmode="backward"),
+                    dict(step="all")
+                ])
+            )
+        )   
+            fig.show()
 ticker_btn = Button(entry_frame,text = "Submit details",command = input_ticker,)
 ticker_btn.pack()
 root.mainloop()
