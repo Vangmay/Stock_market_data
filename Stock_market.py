@@ -134,8 +134,9 @@ def history_win():
         infoMenu=Menu(menuBar,tearoff=0)
         infoMenu.add_command(command = _msgBoxticker)
     def submit():
-        ticker = ticker_entry.get()
-        stat = yf.download(tickers = ticker.upper(),period=period_entry.get())
+        ticker = yf.Ticker(ticker_entry.get())
+        data = ticker_entry.get()
+        stat = ticker.history(period=period_entry.get())
         if stat.empty == True:
             _msgBoxticker()
         else:
@@ -146,7 +147,7 @@ def history_win():
             low = stat['Low'],
             close= stat['Close'],name = 'market data'))
             fig.update_layout(
-                title = ticker.upper() +"'s history of share price",
+                title = data.upper() +"'s history of share price",
                 yaxis_title ='Stock price (USD PER SHARE)')
             fig.update_xaxes(
             rangeslider_visible=True
@@ -167,11 +168,20 @@ def history_win():
 
 
 #home page gui
-button_frame = Frame(root)
+button_frame = Frame(root,height=500,width=350)
 button_frame.pack(pady=200,padx=120)
 Current_btn = Button(button_frame,text='Current',command = current_win)
 Current_btn.pack()
 History_btn = Button(button_frame,text='History',command=history_win)
 History_btn.pack()
+heading = Label(button_frame,text="How to use")
+heading.config(font=("Times new roman",14))
+heading.pack()
+inst = Label(button_frame,text="Use the current button to get live data",width=30,height = 70)
+inst.config(font=("Times new roman",14))
+inst.pack()
+inst_2 = Label(button_frame,text="Use the History button to get older data",width=30)
+inst_2.config(font=("Times new roman",14))
+inst_2.pack()
 root.mainloop()
 #home page gui
